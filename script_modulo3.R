@@ -40,7 +40,7 @@ switch(tipo,
        {
          NA_real_
        })
-
+  
 # Funções vetorizadas
 notas <- c("João" = 70, "Ana" = 89,
            "Márcia" = 81, "Tiago" = 65,
@@ -168,7 +168,7 @@ joga_dados <- function(n_dados, n_max, n_simulacao) {
 jogadas <- joga_dados(n_dados = 3, n_max = 100, n_simulacao = 1000)
 jogadas <- joga_dados(n_dados = 4, n_max = 100, n_simulacao = 1000)
 mean(jogadas)
-
+formals(joga_dados)
 
 ## Aspectos avançados
 # Calculo do IMC
