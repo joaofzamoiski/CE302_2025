@@ -1,4 +1,10 @@
 #### 1
+require(tidyverse)
+require(dplyr)
+require(tidytuesdayR)
+require(lubridate)
+install.packages("tidytuesdayR")
+install.packages("lubridate")
 
 dados <- read.csv("C:/Users/JFZ/Desktop/bases/michelin.csv")
 View(dados)
@@ -76,6 +82,80 @@ aniversario <- dados %>%
 
 californian <- dados %>%
   filter(Cuisine == "Californian") %>%
-  summarise(minimo = min(dist_inicio))
+    summarise(minimo = min(dist_inicio))
+
+
+
+
+
+
+#### 2
+
+tuesdata <- tidytuesdayR::tt_load(2021, week = 48)
+View(tuesdata)
+
+
+db <- bind_rows(tuesdata[["writers"]], tuesdata[["directors"]], tuesdata[["episodes"]], tuesdata[["imdb"]])
+View(db)
   
 
+escritor <- tuesdata[["writers"]]
+View(imdb)
+
+diretor <- tuesdata[["directors"]]
+
+eps <- tuesdata[["episodes"]]
+
+imdb <- tuesdata[["imdb"]]
+
+
+db_join <- full_join(escritor, diretor, by = c("story_number"))
+View(db_join)
+
+
+
+db_join2 <- full_join(db_join, eps, by = c("story_number"))
+View(db_join2)
+
+base <- full_join(db_join2, imdb, by = c("season_number" = "season","episode_number" = "ep_num"))
+View(base)
+
+
+base %>%
+  filter(director == "Euros Lyn" & writer == "Steven Moffat") %>%
+  summarise(cont = n())
+
+
+base <- base %>%
+  mutate(data = ymd(first_aired))
+
+
+
+
+base %>%
+  filter(year(data) == 2014) %>%
+  filter(writer == "Steven Moffat") %>%
+  summarise(cont = n())
+
+
+
+
+
+base %>%
+  filter(writer == "Stephen Thompson") %>%
+  summarise(minimo = min(data),
+            maximo = max(data),
+            diferenca_anos = (difftime(max(data), min(data), units = "days"))/365)
+
+base %>%
+  filter(writer == "Stephen Thompson") %>%
+  filter(data >= min(data) & data <= max(data)) %>%
+  summarise(cont = n())
+
+
+
+base %>%
+  filter(director == "James Strong") %>%
+  summarise(media = mean(duration))
+
+            
