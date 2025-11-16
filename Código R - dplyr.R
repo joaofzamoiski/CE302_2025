@@ -1,4 +1,6 @@
 require(tidyverse)
+install.packages("data.table")
+library(data.table)
 
 dados <- readr::read_csv("data/Mental Health Dataset.csv")
 ## Para vermos os dados, podemos utilizar a função head()
